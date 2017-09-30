@@ -3,9 +3,9 @@ minTime is a minimal time tracking web application. It also tracks billable amou
 
 minTime does not have a user/authentication system so access should be restricted somehow (HTTP authentication, etc).
 
-# Requirements
+## Requirements
 PHP 5.6+, MySQL or MariaDB.
 
-# Install
+## Install
 1. Create database and import mintime.sql.
 2. Update config.php with database settings. 
