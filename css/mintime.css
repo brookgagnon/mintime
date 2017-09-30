@@ -1,0 +1,182 @@
+html, body
+{
+  height: 100%; 
+}
+
+body
+{
+  margin: 0;
+  padding: 0;
+  background-color: #2e3436;
+  color: #fff;
+  font-family: 'Inconsolata', monospace;
+}
+
+input, select, textarea
+{
+  font-family: 'Inconsolata', monospace;
+}
+
+input[type=text], input[type=text]:focus
+{
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  border-bottom: 1px dotted #fff !important;
+  background: transparent;
+  color: #fff;
+  width: 300px;
+}
+
+a
+{
+  color: #fff;
+  text-decoration: underline;
+}
+
+select
+{
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  background: transparent;
+  color: #fff;
+  width: 55px;
+}
+
+option
+{
+  background-color: #2e3436;
+}
+
+label
+{
+  display: inline-block;
+  width: 120px;
+  text-align: right;
+}
+
+label::after
+{
+  content: ':';
+}
+
+#container
+{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#top, #bottom
+{
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+#top
+{
+  min-height: 15%;
+  max-height: 85%;
+  height: 50%;
+  flex: 0 0 auto;
+  border-bottom: 1px solid #fff;
+}
+
+#bottom
+{
+  flex: 1 1 auto;
+}
+
+#q1c, #q3c
+{
+  min-width: 25%;
+  max-width: 75%;
+  width: 50%;
+  flex: 0 0 auto;
+  border-right: 1px solid #fff;
+}
+
+#q2c, #q4c
+{
+  flex: 1 1 auto;
+}
+
+.q
+{
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.q .header
+{
+  padding: 12.5px 25px;
+  background-color: #2e3436;
+  position: relative;
+  z-index: 5;
+  border-bottom: 1px dashed #fff;
+}
+
+.q .header *
+{
+  margin: 0;
+}
+
+.q .header > *:first-child
+{
+  float: left;
+}
+
+.q .header > *:last-child
+{
+  float: right;
+}
+
+.q .header > div
+{
+  margin-top: 6px;
+}
+
+.q .header::after
+{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.scrollable
+{
+  position: relative;
+  top: 0;
+  padding: 25px;
+}
+
+.scrollable > p:first-child
+{
+  margin-top: 0;
+}
+
+#tasks p, #log p
+{
+  cursor: pointer;
+}
+
+.running
+{
+  position: relative;
+}
+
+.running::before
+{
+  content: "\25F7";
+  position: absolute;
+  left: -20px;
+  top: -3px;
+}
