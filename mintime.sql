@@ -10,8 +10,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `logs` (
   `id` int(10) UNSIGNED NOT NULL,
   `taskid` int(10) UNSIGNED NOT NULL,
-  `start_datetime_backup` datetime NOT NULL,
-  `end_datetime_backup` datetime DEFAULT NULL,
   `start` int(10) UNSIGNED NOT NULL,
   `end` int(10) UNSIGNED DEFAULT NULL,
   `notes` text NOT NULL
