@@ -1,5 +1,3 @@
-<div id="task_edit">
-
 <div class="header">
   <h2>task details</h2>
   <div>
@@ -8,7 +6,7 @@
   </div>
 </div>
 
-<form class="scrollable">
+<form class="scrollable" id="task_edit">
   <div><label>name</label> <input name="name" type="text" value="{{name}}" /></div>
   <div><label>budget</label> <input name="budget" type="text" value="{{budget}}" /></div>
   <div><label>rate</label> <input name="rate" type="text" value="{{rate}}" /></div>
@@ -18,5 +16,3 @@
   <p><label>time</label> {{time}}</p>
   <p><label>amount</label> {{amount}}</p>
 </form>
-
-</div>

@@ -113,6 +113,8 @@ label::after
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .q .header
@@ -122,6 +124,7 @@ label::after
   position: relative;
   z-index: 5;
   border-bottom: 1px dashed #fff;
+  flex: 0 0 auto;
 }
 
 .q .header *
@@ -151,14 +154,16 @@ label::after
   clear: both;
 }
 
-.scrollable
+.q .scrollable
 {
   position: relative;
   top: 0;
-  padding: 25px;
+  padding: 15px 5px 15px 25px;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
-.scrollable > p:first-child
+.q .scrollable > p:first-child
 {
   margin-top: 0;
 }

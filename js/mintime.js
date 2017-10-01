@@ -23,10 +23,11 @@ Date.prototype.formatMT = function(format)
   return string;
 }
 
-template = function(template_name, data)
+template = function(destination_id, template_name, data)
 {
   var template = $('#'+template_name+'-template').html();
-  return Mustache.to_html(template, data);
+  $('#'+destination_id).html( Mustache.to_html(template, data) );
+  $('.scrollable').mCustomScrollbar({ scrollInertia: 300 });
 }
 
 // source: https://stackoverflow.com/questions/8900587/jquery-serializeobject-is-not-a-function-only-in-firefox
@@ -62,22 +63,6 @@ MT.init = function()
   $('#top').resizable({'handles': 's'});
   $('#q1c').resizable({'handles': 'e'});
   $('#q3c').resizable({'handles': 'e'});
-
-  $('body').on('mousewheel', '.q', function(e){
-
-      if(e.originalEvent.wheelDelta > 0) var delta = 30;
-      else var delta = -30;
-
-      var $scrollable = $(this).find('.scrollable');
-
-      var maxScroll = $scrollable.height() - $(this).height() + 115;
-
-      console.log(maxScroll);
-
-      var top = Math.min(0,Math.max(parseInt($scrollable.css('top'),10) + delta, -maxScroll));
-
-      $scrollable.css('top',top+'px');
-  });
 }
 
 MT.Tasks = {};
@@ -98,7 +83,7 @@ MT.Tasks.get = function()
   $.get('index.php/ajax/tasks/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
   {
     var data = {'tasks': tasks, 'archived': MT.Tasks.showArchived};
-    $('#q1').html( template('tasks',data) );
+    template('q1', 'tasks',data);
     MT.Tasks.running();
   },'json');
 }
@@ -121,8 +106,8 @@ MT.Tasks.open = function(id)
   {
     MT.Log.close();
 
-    $('#q3').html( template('log', {'log': task.log}) );
-    $('#q2').html( template('task_details', task.data) );
+    template('q3', 'log', {'log': task.log});
+    template('q2', 'task_details', task.data);
 
     $('#task_edit select[name=currency]').val(task.data.currency); // TODO do in template?
     $('#task_edit select[name=invoiced]').val(task.data.invoiced ? 1 : 0); // TODO do in template?
@@ -140,7 +125,7 @@ MT.Tasks.close = function()
 
 MT.Tasks.save = function()
 {
-  var input = $('#task_edit form').serializeObject();
+  var input = $('#task_edit').serializeObject();
 
   $.post('index.php/ajax/task_edit/'+MT.Tasks.id, input, function(data)
   {
@@ -222,7 +207,7 @@ MT.Log.open = function(id)
     data.start = new Date(data.start*1000).formatMT();
     if(data.end) data.end = new Date(data.end*1000).formatMT()
 
-    $('#q4').html( template('log_details', data) );
+    template('q4', 'log_details', data);
     if(!data.end) $('#log_edit-end').hide();
     else $('#log_edit-stop').hide();
   },'json');
@@ -235,7 +220,7 @@ MT.Log.close = function()
 
 MT.Log.save = function()
 {
-  var input = $('#log_edit form').serializeObject();
+  var input = $('#log_edit').serializeObject();
 
   input['start'] = strtotime(input['start']);
   if(input['end']) input['end'] = strtotime(input['end']);
@@ -269,7 +254,7 @@ MT.stats = function()
 
   $.post('index.php/ajax/stats',postdata,function(data)
   {
-    $('#q2').html( template('stats', data) );
+    template('q2', 'stats', data);
   },'json');
 }
 

@@ -10,7 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
   <script src="vendor/locutus/strtotime.js"></script>
-  <script src="vendor/mustache/mustache.min.js"></script>
+  <script src="vendor/janl/mustache.js/mustache.min.js"></script>
+  <link rel="stylesheet" href="vendor/malihu/custom-scrollbar-plugin/jquery.mCustomScrollbar.css" />
+  <script src="vendor/malihu/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="js/mintime.js"></script>
   <link href="css/mintime.css" rel="stylesheet" type="text/css"/>
 </head>
