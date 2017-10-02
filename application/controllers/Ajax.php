@@ -67,7 +67,7 @@ class Ajax extends CI_Controller
     echo json_encode($this->db->insert_id());
   }
 
-  public function task_edit($id = null)
+  public function task_save($id = null)
   {
     $id = (int) $id;
     if(!$id) show_404();
@@ -80,10 +80,16 @@ class Ajax extends CI_Controller
       'invoiced'=> $this->input->post('invoiced')==1 ? 1 : 0
     ];
 
+    // don't edit name if blank
+    if($data['name']=='') unset($data['name']);
+
     $this->db->where('id',$id);
     $this->db->update('tasks', $data);
 
-    echo json_encode(true);    
+    $this->db->where('id',$id);
+    $query = $this->db->get('tasks');
+
+    echo json_encode(current($query->result()));    
   }
 
   public function task_archive($id = null)
@@ -151,7 +157,7 @@ class Ajax extends CI_Controller
     echo json_encode(true);
   }
 
-  public function task_running()
+  public function running()
   {
     $this->db->where('end',null);
     $query = $this->db->get('logs');
@@ -192,7 +198,7 @@ class Ajax extends CI_Controller
     echo json_encode($log);
   }
 
-  public function log_edit($id = null)
+  public function log_save($id = null)
   {
     $id = (int) $id;
     if(!$id) show_404();
@@ -200,16 +206,41 @@ class Ajax extends CI_Controller
     $data = [
       'notes' => trim($this->input->post('notes')),
       'start' => round(trim($this->input->post('start'))),
+      'end' => round(trim($this->input->post('end')))
     ];
 
-    // only set end if it's specified; want to keep 'null' for running tasks.
-    $end = trim($this->input->post('end'));
-    if($end!='') $data['end'] = round($end);
+    // don't edit times if zero/empty
+    if(empty($data['start'])) unset($data['start']);
+    if(empty($data['end'])) unset($data['end']);
+
+    // don't update notes if blank.
+    if($data['notes']=='') unset($data['notes']);
 
     $this->db->where('id',$id);
     $this->db->update('logs', $data);
 
-    echo json_encode(true);    
+    $this->db->where('id',$id);
+    $query = $this->db->get('logs');
+    $log = current($query->result());
+
+    // TODO code duplication bad, start using models.
+    if($log->end) 
+    {
+      $log->time = number_format(($log->end - $log->start)/3600,2);
+      
+      $this->db->where('id',$log->taskid);
+      $query = $this->db->get('tasks');
+      $task = current($query->result());
+      if(!$task) show_404(); // shouldn't happen.
+      $log->amount = number_format($task->rate*$log->time,2);
+    }
+    else
+    {
+      $log->time = '...';
+      $log->amount = '...';
+    }
+
+    echo json_encode($log);    
   }
 
   public function log_delete($id = null)
