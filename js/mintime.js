@@ -21,7 +21,7 @@ MT.template = function(destination_id, template_name, data)
 
 MT.running = function()
 {
-  $.get('index.php/ajax/running/',function(data)
+  $.get('index.php/mintime/running/',function(data)
   {
     $('#tasks [data-id]').removeClass('running');
     $('#log [data-id]').removeClass('running');
@@ -41,7 +41,7 @@ MT.stats = function()
   postdata['month'] = strtotime('-1 month');
   postdata['year'] = strtotime('-1 year');
 
-  $.post('index.php/ajax/stats',postdata,function(data)
+  $.post('index.php/mintime/stats/',postdata,function(data)
   {
     MT.template('q2', 'stats', data);
   },'json');

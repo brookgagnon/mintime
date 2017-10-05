@@ -4,7 +4,7 @@ MT.Log.id = null;
 
 MT.Log.new = function()
 {
-  $.get('index.php/ajax/task_start/'+MT.Tasks.id, function(id)
+  $.get('index.php/logs/start/'+MT.Tasks.id, function(id)
   {
     MT.Log.id = id;
     MT.Tasks.open();
@@ -15,7 +15,7 @@ MT.Log.new = function()
 
 MT.Log.stop = function()
 {
-  $.get('index.php/ajax/task_stop',function()
+  $.get('index.php/logs/stop/',function()
   { 
     MT.Log.open();
     MT.running();
@@ -26,7 +26,7 @@ MT.Log.open = function(id)
 {
   if(id) MT.Log.id = id;
 
-  $.get('index.php/ajax/log/'+MT.Log.id, function(data)
+  $.get('index.php/logs/get_one/'+MT.Log.id, function(data)
   {
     data.start = new Date(data.start*1000).formatMT();
     if(data.end) data.end = new Date(data.end*1000).formatMT()
@@ -49,7 +49,7 @@ MT.Log.save = function()
   input['start'] = strtotime(input['start']);
   if(input['end']) input['end'] = strtotime(input['end']);
 
-  $.post('index.php/ajax/log_save/'+MT.Log.id, input, function(data)
+  $.post('index.php/logs/save/'+MT.Log.id, input, function(data)
   {
     $('#log [data-id='+data.id+']').text(data.notes);
 
@@ -65,7 +65,7 @@ MT.Log.delete = function()
 {
   if(confirm('Delete this entry?'))
   {
-    $.get('index.php/ajax/log_delete/'+MT.Log.id, function(data)
+    $.get('index.php/logs/delete/'+MT.Log.id, function(data)
     {
       MT.Tasks.open();
       MT.Log.close();

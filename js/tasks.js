@@ -13,7 +13,7 @@ MT.Tasks.archivedToggle = function()
 
 MT.Tasks.get = function()
 {
-  $.get('index.php/ajax/tasks/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
+  $.get('index.php/tasks/get_all/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
   {
     var data = {'tasks': tasks, 'archived': MT.Tasks.showArchived};
     MT.template('q1', 'tasks',data);
@@ -23,7 +23,7 @@ MT.Tasks.get = function()
 
 MT.Tasks.new = function()
 {
-  $.get('index.php/ajax/task_new',function(id)
+  $.get('index.php/tasks/new/',function(id)
   { 
     MT.Tasks.showArchived = false;
     MT.Tasks.get();
@@ -36,7 +36,7 @@ MT.Tasks.open = function(id)
 {
   if(id) MT.Tasks.id = id;
 
-  $.get('index.php/ajax/task/'+MT.Tasks.id,function(task)
+  $.get('index.php/tasks/get_one/'+MT.Tasks.id,function(task)
   {
     MT.Log.close();
 
@@ -61,7 +61,7 @@ MT.Tasks.save = function()
 {
   var input = $('#task_edit').serializeObject();
 
-  $.post('index.php/ajax/task_save/'+MT.Tasks.id, input, function(data)
+  $.post('index.php/tasks/save/'+MT.Tasks.id, input, function(data)
   {
     $('#tasks [data-id='+data.id+']').text(data.name);
 
@@ -76,7 +76,7 @@ MT.Tasks.archive = function()
 {
   if(confirm( (MT.Tasks.showArchived ? 'Un-archive' : 'Archive') + ' this task?'))
   {
-    $.get('index.php/ajax/task_archive/'+MT.Tasks.id, function(data)
+    $.get('index.php/tasks/archive/'+MT.Tasks.id, function(data)
     {
       MT.Tasks.get();
       MT.Tasks.close();
@@ -89,7 +89,7 @@ MT.Tasks.delete = function()
 {
   if(confirm('Delete this task?'))
   {
-    $.get('index.php/ajax/task_delete/'+MT.Tasks.id, function(data)
+    $.get('index.php/tasks/delete/'+MT.Tasks.id, function(data)
     {
       MT.Tasks.get();
       MT.Tasks.close();

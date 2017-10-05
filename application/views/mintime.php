@@ -14,12 +14,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" href="vendor/malihu/custom-scrollbar-plugin/jquery.mCustomScrollbar.css" />
   <script src="vendor/malihu/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
-  <script src="js/helpers.js"></script>
-  <script src="js/mintime.js"></script>
-  <script src="js/tasks.js"></script>
-  <script src="js/log.js"></script>
+  <script src="js/helpers.js?v=<?=filemtime('js/helpers.js')?>"></script>
+  <script src="js/mintime.js?v=<?=filemtime('js/mintime.js')?>"></script>
+  <script src="js/tasks.js?v=<?=filemtime('js/tasks.js')?>"></script>
+  <script src="js/logs.js?v=<?=filemtime('js/logs.js')?>"></script>
 
-  <link href="css/mintime.css" rel="stylesheet" type="text/css"/>
+  <link href="css/mintime.css?v=<?=filemtime('css/mintime.css')?>" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
