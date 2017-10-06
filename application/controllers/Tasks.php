@@ -4,11 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Tasks extends CI_Controller 
 {
 
-	public function get_all($archived = 0)
-	{ 
+  public function get_all($archived = 0)
+  { 
     $tasks = $this->tasks->get_all($archived);
     echo json_encode($tasks);
-	}
+  }
 
   public function get_one($id = null)
   {

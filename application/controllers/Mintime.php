@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mintime extends CI_Controller
 {
-	public function index()
-	{
-		$this->load->view('mintime');
-	}
+  public function index()
+  {
+    $this->load->view('mintime');
+  }
 
   public function running()
   {
