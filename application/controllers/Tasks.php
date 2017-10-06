@@ -12,15 +12,11 @@ class Tasks extends CI_Controller
 
   public function get_one($id = null)
   {
-    $id = (int) $id;
-    if(!$id) show_404();
-
     // get task
     $task = $this->tasks->get_one($id);
-    if(!$task) show_404();
 
     // TODO maybe separate request for this
-    $log = $this->logs->get_all($id);
+    $log = $this->logs->get_for_task($id);
 
     $return = ['data'=>$task, 'log'=>$log];
 
@@ -31,34 +27,23 @@ class Tasks extends CI_Controller
   {
     $task = $this->tasks->new();
   
-    // TODO, return full task so client doesn't have to request data from ID
+    // TODO return full task so client doesn't have to make another request for this data?
     echo json_encode($task->id);
   }
 
   public function save($id = null)
   {
-    $id = (int) $id;
-    if(!$id) show_404();
-
     $task = $this->tasks->save($id, $this->input->post());
-
     echo json_encode($task);    
   }
 
-  // TODO change name to archive_toggle
-  public function archive($id = null)
+  public function archive_toggle($id = null)
   {
-    $id = (int) $id;
-    if(!$id) show_404();
-
     echo json_encode( $this->tasks->archive_toggle($id) );
   }
 
   public function delete($id = null)
   {
-    $id = (int) $id;
-    if(!$id) show_404();
-
     echo json_encode( $this->tasks->delete($id) );
   }
 

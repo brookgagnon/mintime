@@ -29,7 +29,7 @@ class Tasks_model extends CI_Model
     if(!$task) return false;
 
     // get log data to figure out time and billable amount
-    $log = $this->logs->get_all($id);
+    $log = $this->logs->get_for_task($id);
 
     $task->time = 0;
     foreach($log as $entry)
@@ -89,15 +89,10 @@ class Tasks_model extends CI_Model
 
   public function delete($id)
   {
-    $task = $this->get_one($id);
-    if(!$task) return false;
-
     $this->db->where('id',$id);
     $this->db->delete('tasks');
 
-    // TODO move to logs model?
-    $this->db->where('task_id',$id);
-    $this->db->delete('logs');
+    $this->logs->delete_for_task($id);
 
     return true;
   }

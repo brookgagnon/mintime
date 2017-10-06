@@ -76,7 +76,7 @@ MT.Tasks.archive = function()
 {
   if(confirm( (MT.Tasks.showArchived ? 'Un-archive' : 'Archive') + ' this task?'))
   {
-    $.get('index.php/tasks/archive/'+MT.Tasks.id, function(data)
+    $.get('index.php/tasks/archive_toggle/'+MT.Tasks.id, function(data)
     {
       MT.Tasks.get();
       MT.Tasks.close();
