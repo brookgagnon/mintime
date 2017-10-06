@@ -5,14 +5,9 @@ class Tasks extends CI_Controller
 {
 
 	public function get_all($archived = 0)
-	{
-    $archived = ($archived==1 ? 1 : 0);
-
-    $this->db->where('archived',$archived);
-    $this->db->order_by('name');
-    $query = $this->db->get('tasks');
-
-    echo json_encode($query->result());
+	{ 
+    $tasks = $this->tasks->get_all($archived);
+    echo json_encode($tasks);
 	}
 
   public function get_one($id = null)
@@ -20,45 +15,24 @@ class Tasks extends CI_Controller
     $id = (int) $id;
     if(!$id) show_404();
 
-    $this->db->where('id',$id);
-    $query = $this->db->get('tasks');
-
-    $task = current($query->result());
+    // get task
+    $task = $this->tasks->get_one($id);
     if(!$task) show_404();
 
-    $this->db->where('taskid',$id);
-    $this->db->order_by('start','DESC');
-    $query = $this->db->get('logs');
-    $log = $query->result();
+    // TODO maybe separate request for this
+    $log = $this->logs->get_all($id);
 
-    $task->time = 0;
-    foreach($log as $entry)
-    {
-      $task->time += ($entry->end ? $entry->end : time()) - $entry->start;
-    }
-    $task->time = number_format($task->time/3600,2);
-    $task->amount = number_format(min($task->budget,$task->time * $task->rate),2);
-
-    $task->archived = (bool) $task->archived;
-    $task->invoiced = (bool) $task->invoiced;
-
-    $return = [];
-    $return['data'] = $task;
-    $return['log'] = $log;
+    $return = ['data'=>$task, 'log'=>$log];
 
     echo json_encode($return);
   }
 
   public function new()
   {
-    $data = [
-      'name' => '__ New Task __',
-      'currency' => 'CAD'
-    ];
-
-    $this->db->insert('tasks',$data);
-
-    echo json_encode($this->db->insert_id());
+    $task = $this->tasks->new();
+  
+    // TODO, return full task so client doesn't have to request data from ID
+    echo json_encode($task->id);
   }
 
   public function save($id = null)
@@ -66,40 +40,18 @@ class Tasks extends CI_Controller
     $id = (int) $id;
     if(!$id) show_404();
 
-    $data = [
-      'name' => trim($this->input->post('name')),
-      'budget' => (float) trim($this->input->post('budget')),
-      'rate' => (float) trim($this->input->post('rate')),
-      'currency' => $this->input->post('currency'),
-      'invoiced'=> $this->input->post('invoiced')==1 ? 1 : 0
-    ];
+    $task = $this->tasks->save($id, $this->input->post());
 
-    // don't edit name if blank
-    if($data['name']=='') unset($data['name']);
-
-    $this->db->where('id',$id);
-    $this->db->update('tasks', $data);
-
-    $this->db->where('id',$id);
-    $query = $this->db->get('tasks');
-
-    echo json_encode(current($query->result()));    
+    echo json_encode($task);    
   }
 
+  // TODO change name to archive_toggle
   public function archive($id = null)
   {
     $id = (int) $id;
     if(!$id) show_404();
 
-    $this->db->where('id',$id);
-    $query = $this->db->get('tasks');
-    $task = current($query->result());
-    if(!$task) show_404();
-
-    $this->db->where('id',$id);
-    $this->db->update('tasks',['archived'=> ($task->archived == 0 ? 1 : 0)]);
-
-    echo json_encode(true);
+    echo json_encode( $this->tasks->archive_toggle($id) );
   }
 
   public function delete($id = null)
@@ -107,13 +59,7 @@ class Tasks extends CI_Controller
     $id = (int) $id;
     if(!$id) show_404();
 
-    $this->db->where('id',$id);
-    $this->db->delete('tasks');
-
-    $this->db->where('taskid',$id);
-    $this->db->delete('logs');
-
-    echo json_encode(true);
+    echo json_encode( $this->tasks->delete($id) );
   }
 
 }
