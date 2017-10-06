@@ -19,7 +19,7 @@ class Logs extends CI_Controller
     {
       $log->time = number_format(($log->end - $log->start)/3600,2);
       
-      $this->db->where('id',$log->taskid);
+      $this->db->where('id',$log->task_id);
       $query = $this->db->get('tasks');
       $task = current($query->result());
       if(!$task) show_404(); // shouldn't happen.
@@ -64,7 +64,7 @@ class Logs extends CI_Controller
     {
       $log->time = number_format(($log->end - $log->start)/3600,2);
       
-      $this->db->where('id',$log->taskid);
+      $this->db->where('id',$log->task_id);
       $query = $this->db->get('tasks');
       $task = current($query->result());
       if(!$task) show_404(); // shouldn't happen.
@@ -105,7 +105,7 @@ class Logs extends CI_Controller
     $this->db->update('logs',['end'=>time()]);
 
     $data = [
-      'taskid' => $id,
+      'task_id' => $id,
       'start' => time(),
       'end'=> null,
       'notes'=>'__ New Log Entry __'

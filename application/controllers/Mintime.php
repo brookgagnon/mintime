@@ -14,7 +14,7 @@ class Mintime extends CI_Controller
     $query = $this->db->get('logs');
     $running = current($query->result());
 
-    if($running) echo json_encode(['task'=>$running->taskid,'log'=>$running->id]);
+    if($running) echo json_encode(['task'=>$running->task_id,'log'=>$running->id]);
     else echo json_encode(false);
   }
 

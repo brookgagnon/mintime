@@ -9,7 +9,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `logs` (
   `id` int(10) UNSIGNED NOT NULL,
-  `taskid` int(10) UNSIGNED NOT NULL,
+  `task_id` int(10) UNSIGNED NOT NULL,
   `start` int(10) UNSIGNED NOT NULL,
   `end` int(10) UNSIGNED DEFAULT NULL,
   `notes` text NOT NULL
@@ -33,7 +33,7 @@ CREATE TABLE `tasks` (
 
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `taskid` (`taskid`);
+  ADD KEY `task_id` (`task_id`);
 
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`option_name`);

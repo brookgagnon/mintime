@@ -95,7 +95,8 @@ class Tasks_model extends CI_Model
     $this->db->where('id',$id);
     $this->db->delete('tasks');
 
-    $this->db->where('taskid',$id);
+    // TODO move to logs model?
+    $this->db->where('task_id',$id);
     $this->db->delete('logs');
 
     return true;
