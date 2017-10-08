@@ -70,11 +70,8 @@ class Tasks_model extends CI_Model
 
     $this->db->where('id',$id);
     $this->db->update('tasks', $task);
-
-    $this->db->where('id',$id);
-    $query = $this->db->get('tasks');
     
-    return current($query->result());
+    return $this->get_one($id);
   }
 
   public function archive_toggle($id)
@@ -84,17 +81,17 @@ class Tasks_model extends CI_Model
 
     $this->db->where('id',$id);
     $this->db->update('tasks',['archived'=> ($task->archived == 0 ? 1 : 0)]);
-    return true;
+    return (bool) $this->db->affected_rows();
   }
 
   public function delete($id)
   {
+    $this->logs->delete_for_task($id);
+
     $this->db->where('id',$id);
     $this->db->delete('tasks');
 
-    $this->logs->delete_for_task($id);
-
-    return true;
+    return (bool) $this->db->affected_rows();
   }
 
 }

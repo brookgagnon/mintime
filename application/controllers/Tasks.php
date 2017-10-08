@@ -39,12 +39,14 @@ class Tasks extends CI_Controller
 
   public function archive_toggle($id = null)
   {
-    echo json_encode( $this->tasks->archive_toggle($id) );
+    $status = $this->tasks->archive_toggle($id);
+    echo json_encode($status);
   }
 
   public function delete($id = null)
   {
-    echo json_encode( $this->tasks->delete($id) );
+    $status = $this->tasks->delete($id);
+    echo json_encode($status);
   }
 
 }

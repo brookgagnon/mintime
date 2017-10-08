@@ -20,7 +20,7 @@ class Logs_model extends CI_Model
   {
     $this->db->where('task_id',$task_id);
     $this->db->delete('logs');
-    return true;
+    return (bool) $this->db->affected_rows();
   }
 
   public function get_one($id)
@@ -68,7 +68,7 @@ class Logs_model extends CI_Model
   {
     $this->db->where('id',$id);
     $this->db->delete('logs');
-    return true;
+    return (bool) $this->db->affected_rows();
   }
 
   public function start($task_id)
@@ -97,7 +97,7 @@ class Logs_model extends CI_Model
   {
     $this->db->where('end',null);
     $this->db->update('logs',['end'=>time()]);
-    return true;
+    return (bool) $this->db->affected_rows();
   }
 
 }

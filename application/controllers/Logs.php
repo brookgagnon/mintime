@@ -17,7 +17,8 @@ class Logs extends CI_Controller
 
   public function delete($id = null)
   {
-    echo json_encode( $this->logs->delete($id) );
+    $status = $this->logs->delete($id)
+    echo json_encode($status);
   }
 
   public function start($task_id = null)
@@ -30,6 +31,7 @@ class Logs extends CI_Controller
 
   public function stop()
   {
-    echo json_encode( $this->logs->stop() );
+    $status = $this->logs->stop();
+    echo json_encode($status);
   }
 }

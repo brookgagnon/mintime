@@ -27,8 +27,8 @@ MT.running = function()
     $('#log [data-id]').removeClass('running');
     if(data)
     {
-      $('#tasks [data-id='+data.task+']').addClass('running');
-      $('#log [data-id='+data.log+']').addClass('running');
+      $('#tasks [data-id='+data.task_id+']').addClass('running');
+      $('#log [data-id='+data.log_id+']').addClass('running');
     }
   },'json');
 }
