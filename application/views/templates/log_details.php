@@ -7,12 +7,12 @@
 </div>
 
 <form id="log_edit" class="scrollable" data-id="{{id}}" data-task_id="{{task_id}}">
-  <div><label>notes</label> <input name="notes" type="text" value="{{notes}}" /></div>
-  <div><label>start</label> <input name="start" type="text" value="{{start}}" /></div>
-  <div id="log_edit-end"><label>end</label> <input name="end" type="text" value="{{end}}" /></div>
+  <div><label>notes</label> <input name="notes" type="text" /></div>
+  <div><label>start</label> <input name="start" type="text" /></div>
+  <div id="log_edit-end"><label>end</label> <input name="end" type="text" /></div>
 
-  <p><label>time</label> <span data-name="time">{{time}}</span></p>
-  <p><label>amount</label> <span data-name="amount">{{amount}}</span></p>
+  <p><label>time</label> <span data-name="time"></span></p>
+  <p><label>amount</label> <span data-name="amount"></span></p>
 </form>
 
 </div>

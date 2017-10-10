@@ -21,7 +21,7 @@ MT.template = function(destination_id, template_name, data)
 
 MT.running = function()
 {
-  $.get('index.php/mintime/running/',function(data)
+  $.post('index.php/mintime/running/',function(data)
   {
     $('#tasks [data-id]').removeClass('running');
     $('#log [data-id]').removeClass('running');

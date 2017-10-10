@@ -11,7 +11,7 @@ MT.Tasks.archivedToggle = function()
 
 MT.Tasks.get = function()
 {
-  $.get('index.php/tasks/get_all/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
+  $.post('index.php/tasks/get_all/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
   {
     var data = {'tasks': tasks, 'archived': MT.Tasks.showArchived};
     MT.template('q1', 'tasks',data);
@@ -21,7 +21,7 @@ MT.Tasks.get = function()
 
 MT.Tasks.new = function()
 {
-  $.get('index.php/tasks/new/',function(task)
+  $.post('index.php/tasks/new/',function(task)
   { 
     MT.Tasks.showArchived = false;
     MT.Tasks.get();
@@ -33,13 +33,13 @@ MT.Tasks.new = function()
 MT.Tasks.open = function(id, task)
 {
   if(id) MT.Tasks.id = id;
-  else if(task && task.id) MT.Tasks.id = task.id;
+  else if(task && task.data.id) MT.Tasks.id = task.data.id;
 
   var open = function(task)
   {
     MT.Log.close();
+    MT.Log.get(task.log);
 
-    MT.template('q3', 'log', {'log': task.log});
     MT.template('q2', 'task_details', task.data);
 
     MT.Tasks.update(task.data);
@@ -51,22 +51,22 @@ MT.Tasks.open = function(id, task)
   else $.post('index.php/tasks/get_one/'+MT.Tasks.id, open, 'json');
 }
 
-// update task details fields
-// technically better handled by template system, though this prevents user from losing field focus/input when updating data.
-MT.Tasks.update = function(data)
+// update task details fields.
+// technically better handled by template system, though this prevents user from losing field focus/input when updating.
+MT.Tasks.update = function(task)
 {
   // make sure task name in task list is up to date.
-  $('#tasks [data-id='+data.id+']').text(data.name);
+  $('#tasks [data-id='+task.id+']').text(task.name);
 
-  // set the value of the task details fields
-  $.each(data, function(name,value) { 
+  // set values for task data.
+  $.each(task, function(name,value) { 
     $('#task_edit [name='+name+']').val( typeof(value)=='boolean' ? +value : value );
     $('#task_edit [data-name='+name+']').text(value);
   });
   
   // show/hide (un-)archive links
-  $('#task_edit-is_archived').toggle(data.archived);
-  $('#task_edit-not_archived').toggle(!data.archived);
+  $('#task_edit-is_archived').toggle(task.archived);
+  $('#task_edit-not_archived').toggle(!task.archived);
 }
 
 MT.Tasks.close = function()
@@ -117,8 +117,8 @@ MT.Tasks.delete = function()
   {
     $.post('index.php/tasks/delete/'+MT.Tasks.id, function(data)
     {
+      $('#tasks [data-id='+MT.Tasks.id+']').remove();
       MT.Tasks.close();
-      MT.Tasks.get();
     },'json');
   }
 }

@@ -28,38 +28,38 @@ class Logs_model extends CI_Model
     $this->db->where('id',$id);
     $query = $this->db->get('logs');
 
-    $log = current($query->result());
-    if(!$log) return false;
+    $entry = current($query->result());
+    if(!$entry) return false;
 
-    if($log->end) 
+    if($entry->end) 
     {
-      $log->time = number_format(($log->end - $log->start)/3600,2);
+      $entry->time = number_format(($entry->end - $entry->start)/3600,2);
       
-      $this->db->where('id',$log->task_id);
+      $this->db->where('id',$entry->task_id);
       $query = $this->db->get('tasks');
       $task = current($query->result());
       if(!$task) return false; // shouldn't happen.
-      $log->amount = number_format($task->rate*$log->time,2);
+      $entry->amount = number_format($task->rate*$entry->time,2);
     }
     else
     {
-      $log->time = '...';
-      $log->amount = '...';
+      $entry->time = '...';
+      $entry->amount = '...';
     }
 
-    return $log;
+    return $entry;
   }
 
   public function save($id, $data)
   {
-    $log = [];
+    $entry = [];
 
-    if(isset($data['notes']) && trim($data['notes'])!='') $log['notes'] = trim($data['notes']);
-    if(!empty($data['start'])) $log['start'] = round(trim($data['start']));
-    if(!empty($data['end'])) $log['end'] = round(trim($data['end']));
+    if(isset($data['notes']) && trim($data['notes'])!='') $entry['notes'] = trim($data['notes']);
+    if(!empty($data['start'])) $entry['start'] = round(trim($data['start']));
+    if(!empty($data['end'])) $entry['end'] = round(trim($data['end']));
 
     $this->db->where('id',$id);
-    $this->db->update('logs', $log);
+    $this->db->update('logs', $entry);
 
     return $this->get_one($id);
   }
