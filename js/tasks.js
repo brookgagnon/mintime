@@ -6,10 +6,10 @@ MT.Tasks.showArchived = false;
 MT.Tasks.archivedToggle = function()
 {
   MT.Tasks.showArchived = !MT.Tasks.showArchived;
-  MT.Tasks.get();
+  MT.Tasks.list();
 }
 
-MT.Tasks.get = function()
+MT.Tasks.list = function()
 {
   $.post('index.php/tasks/get_all/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
   {
@@ -24,7 +24,7 @@ MT.Tasks.new = function()
   $.post('index.php/tasks/new/',function(task)
   { 
     MT.Tasks.showArchived = false;
-    MT.Tasks.get();
+    MT.Tasks.list();
     MT.Tasks.open(null, task);
     MT.Log.close();
   },'json');
@@ -38,7 +38,7 @@ MT.Tasks.open = function(id, task)
   var open = function(task)
   {
     MT.Log.close();
-    MT.Log.get(task.log);
+    MT.Log.list(task.log);
 
     MT.template('q2', 'task_details', task.data);
 
@@ -94,7 +94,7 @@ MT.Tasks.archive = function()
     $.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 1}, function(task)
     {
       MT.Tasks.update(task.data);
-      MT.Tasks.get();
+      MT.Tasks.list();
     },'json');
   }
 }
@@ -106,7 +106,7 @@ MT.Tasks.unarchive = function()
     $.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 0}, function(task)
     {
       MT.Tasks.update(task.data);
-      MT.Tasks.get();
+      MT.Tasks.list();
     },'json');
   }
 }

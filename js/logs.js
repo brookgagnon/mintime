@@ -2,15 +2,15 @@ MT.Log = {};
 
 MT.Log.id = null;
 
-MT.Log.get = function(log)
+MT.Log.list = function(log)
 {
-  var get = function(log)
+  var list = function(log)
   {
     MT.template('q3', 'log', {'log': log});
   }
 
-  if(log) get(log);
-  else $.post('index.php/logs/get_for_task/'+MT.Tasks.id, get, 'json');
+  if(log) list(log);
+  else $.post('index.php/logs/get_for_task/'+MT.Tasks.id, list, 'json');
 }
 
 MT.Log.new = function()
@@ -18,7 +18,7 @@ MT.Log.new = function()
   $.post('index.php/logs/start/'+MT.Tasks.id, function(entry)
   {
     MT.Log.id = entry.id;
-    MT.Log.get();
+    MT.Log.list();
     MT.Log.open(null, entry);
     MT.running();
   },'json');

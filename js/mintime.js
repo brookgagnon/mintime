@@ -2,7 +2,7 @@ MT = {};
 
 MT.init = function()
 {
-  MT.Tasks.get();
+  MT.Tasks.list();
   $('body').on('change','#task_edit input', MT.Tasks.save);
   $('body').on('change','#task_edit select', MT.Tasks.save);
   $('body').on('change','#log_edit input', MT.Log.save);
