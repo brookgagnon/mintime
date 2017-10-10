@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Logs extends CI_Controller 
 {
+
   public function get_one($id = null)
   {
     $log = $this->logs->get_one($id);
@@ -17,7 +18,7 @@ class Logs extends CI_Controller
 
   public function delete($id = null)
   {
-    $status = $this->logs->delete($id)
+    $status = $this->logs->delete($id);
     echo json_encode($status);
   }
 
@@ -34,4 +35,5 @@ class Logs extends CI_Controller
     $status = $this->logs->stop();
     echo json_encode($status);
   }
+
 }

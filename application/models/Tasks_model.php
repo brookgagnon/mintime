@@ -43,7 +43,7 @@ class Tasks_model extends CI_Model
     $task->archived = (bool) $task->archived;
     $task->invoiced = (bool) $task->invoiced;
 
-    return $task;
+    return ['data'=>$task, 'log'=>$log];
   }
 
   public function new()
@@ -67,21 +67,12 @@ class Tasks_model extends CI_Model
     if(isset($data['rate'])) $task['rate'] = (float) trim($data['rate']);
     if(isset($data['currency'])) $task['currency'] = trim($data['currency']); // TODO check against allowed values
     if(isset($data['invoiced'])) $task['invoiced'] = empty($data['invoiced']) ? 0 : 1;
+    if(isset($data['archived'])) $task['archived'] = empty($data['archived']) ? 0 : 1;
 
     $this->db->where('id',$id);
     $this->db->update('tasks', $task);
     
     return $this->get_one($id);
-  }
-
-  public function archive_toggle($id)
-  {
-    $task = $this->get_one($id);
-    if(!$task) return false;
-
-    $this->db->where('id',$id);
-    $this->db->update('tasks',['archived'=> ($task->archived == 0 ? 1 : 0)]);
-    return (bool) $this->db->affected_rows();
   }
 
   public function delete($id)

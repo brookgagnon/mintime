@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mintime extends CI_Controller
 {
+
   public function index()
   {
     $this->load->view('mintime');
@@ -19,4 +20,5 @@ class Mintime extends CI_Controller
     $stats = $this->mintime->stats($this->input->post());
     echo json_encode($stats);
   }
+
 }
