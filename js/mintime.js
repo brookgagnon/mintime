@@ -32,7 +32,7 @@ MT.post = function(url, arg1, arg2)
     var callback = arg2;
   }
 
-  data.csrf_token = getCookie('csrf_token');
+  data.csrf_token = getCookie('mintime_csrf_token');
 
   return $.post('index.php/'+url, data, callback, 'json');
 }
