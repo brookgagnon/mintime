@@ -19,9 +19,27 @@ MT.template = function(destination_id, template_name, data)
   $('.scrollable').mCustomScrollbar({ scrollInertia: 300 });
 }
 
+MT.post = function(url, arg1, arg2)
+{
+  if(typeof(arg2)=='undefined')
+  {
+    var data = {};
+    var callback = arg1;
+  }
+  else
+  {
+    var data = arg1;
+    var callback = arg2;
+  }
+
+  data.csrf_token = getCookie('csrf_token');
+
+  return $.post('index.php/'+url, data, callback, 'json');
+}
+
 MT.running = function()
 {
-  $.post('index.php/mintime/running/',function(data)
+  MT.post('mintime/running/',function(data)
   {
     $('#tasks [data-id]').removeClass('running');
     $('#log [data-id]').removeClass('running');
@@ -30,7 +48,7 @@ MT.running = function()
       $('#tasks [data-id='+data.task_id+']').addClass('running');
       $('#log [data-id='+data.log_id+']').addClass('running');
     }
-  },'json');
+  });
 }
 
 MT.stats = function()
@@ -41,10 +59,10 @@ MT.stats = function()
   postdata['month'] = strtotime('-1 month');
   postdata['year'] = strtotime('-1 year');
 
-  $.post('index.php/mintime/stats/',postdata,function(data)
+  MT.post('mintime/stats/',postdata,function(data)
   {
     MT.template('q2', 'stats', data);
-  },'json');
+  });
 }
 
 $(document).ready(function() { MT.init(); });

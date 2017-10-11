@@ -10,27 +10,27 @@ MT.Log.list = function(log)
   }
 
   if(log) list(log);
-  else $.post('index.php/logs/get_for_task/'+MT.Tasks.id, list, 'json');
+  else MT.post('logs/get_for_task/'+MT.Tasks.id, list);
 }
 
 MT.Log.new = function()
 {
-  $.post('index.php/logs/start/'+MT.Tasks.id, function(entry)
+  MT.post('logs/start/'+MT.Tasks.id, function(entry)
   {
     MT.Log.id = entry.id;
     MT.Log.list();
     MT.Log.open(null, entry);
     MT.running();
-  },'json');
+  });
 }
 
 MT.Log.stop = function()
 {
-  $.post('index.php/logs/stop/',function()
+  MT.post('logs/stop/',function()
   { 
     MT.Log.open();
     MT.running();
-  },'json');
+  });
 }
 
 MT.Log.open = function(id, entry)
@@ -45,7 +45,7 @@ MT.Log.open = function(id, entry)
   }
 
   if(entry) open(entry);
-  else $.post('index.php/logs/get_one/'+MT.Log.id, open,'json');
+  else MT.post('logs/get_one/'+MT.Log.id, open);
 }
 
 // update log entry fields.
@@ -80,21 +80,21 @@ MT.Log.save = function()
   input['start'] = strtotime(input['start']);
   if(input['end']) input['end'] = strtotime(input['end']);
 
-  $.post('index.php/logs/save/'+MT.Log.id, input, function(entry)
+  MT.post('logs/save/'+MT.Log.id, input, function(entry)
   {
     MT.Log.update(entry);
-  },'json');
+  });
 }
 
 MT.Log.delete = function()
 {
   if(confirm('Delete this entry?'))
   {
-    $.post('index.php/logs/delete/'+MT.Log.id, function(satus)
+    MT.post('logs/delete/'+MT.Log.id, function(satus)
     {
       $('#log [data-id='+MT.Log.id+']').remove();
       MT.Log.close();
       MT.running();
-    },'json');
+    });
   }
 }

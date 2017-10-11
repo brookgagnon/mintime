@@ -11,23 +11,23 @@ MT.Tasks.archivedToggle = function()
 
 MT.Tasks.list = function()
 {
-  $.post('index.php/tasks/get_all/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
+  MT.post('tasks/get_all/'+(MT.Tasks.showArchived ? 1 : 0), function(tasks)
   {
     var data = {'tasks': tasks, 'archived': MT.Tasks.showArchived};
     MT.template('q1', 'tasks',data);
     MT.running();
-  },'json');
+  });
 }
 
 MT.Tasks.new = function()
 {
-  $.post('index.php/tasks/new/',function(task)
+  MT.post('tasks/new/',function(task)
   { 
     MT.Tasks.showArchived = false;
     MT.Tasks.list();
     MT.Tasks.open(null, task);
     MT.Log.close();
-  },'json');
+  });
 }
 
 MT.Tasks.open = function(id, task)
@@ -48,7 +48,7 @@ MT.Tasks.open = function(id, task)
   }
 
   if(task) open(task);
-  else $.post('index.php/tasks/get_one/'+MT.Tasks.id, open, 'json');
+  else MT.post('tasks/get_one/'+MT.Tasks.id, open);
 }
 
 // update task details fields.
@@ -81,21 +81,21 @@ MT.Tasks.save = function()
 {
   var input = $('#task_edit').serializeObject();
 
-  $.post('index.php/tasks/save/'+MT.Tasks.id, input, function(task)
+  MT.post('index.php/tasks/save/'+MT.Tasks.id, input, function(task)
   {
     MT.Tasks.update(task.data);
-  }, 'json');
+  });
 }
 
 MT.Tasks.archive = function()
 {
   if( confirm('Archive this task?') )
   {
-    $.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 1}, function(task)
+    MT.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 1}, function(task)
     {
       MT.Tasks.update(task.data);
       MT.Tasks.list();
-    },'json');
+    });
   }
 }
 
@@ -103,11 +103,11 @@ MT.Tasks.unarchive = function()
 {
   if( confirm('Un-archive this task?') )
   {
-    $.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 0}, function(task)
+    MT.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 0}, function(task)
     {
       MT.Tasks.update(task.data);
       MT.Tasks.list();
-    },'json');
+    });
   }
 }
 
@@ -115,10 +115,10 @@ MT.Tasks.delete = function()
 {
   if(confirm('Delete this task?'))
   {
-    $.post('index.php/tasks/delete/'+MT.Tasks.id, function(data)
+    MT.post('index.php/tasks/delete/'+MT.Tasks.id, function(data)
     {
       $('#tasks [data-id='+MT.Tasks.id+']').remove();
       MT.Tasks.close();
-    },'json');
+    });
   }
 }

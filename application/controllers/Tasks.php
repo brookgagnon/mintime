@@ -4,6 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Tasks extends CI_Controller 
 {
 
+  public function __construct()
+  {
+    parent::__construct();
+
+    // ensures csrf check
+    require_post();
+  }
+
   public function get_all($archived = 0)
   { 
     $tasks = $this->tasks->get_all($archived);

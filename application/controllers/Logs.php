@@ -4,6 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Logs extends CI_Controller 
 {
 
+  public function __construct()
+  {
+    parent::__construct();
+
+    // ensures csrf check
+    require_post();
+  }
+
   public function get_for_task($task_id = null)
   {
     $log = $this->logs->get_for_task($task_id);
