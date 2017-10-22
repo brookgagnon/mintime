@@ -81,7 +81,7 @@ MT.Tasks.save = function()
 {
   var input = $('#task_edit').serializeObject();
 
-  MT.post('index.php/tasks/save/'+MT.Tasks.id, input, function(task)
+  MT.post('tasks/save/'+MT.Tasks.id, input, function(task)
   {
     MT.Tasks.update(task.data);
   });
@@ -91,7 +91,7 @@ MT.Tasks.archive = function()
 {
   if( confirm('Archive this task?') )
   {
-    MT.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 1}, function(task)
+    MT.post('tasks/save/'+MT.Tasks.id, {'archived': 1}, function(task)
     {
       MT.Tasks.update(task.data);
       MT.Tasks.list();
@@ -103,7 +103,7 @@ MT.Tasks.unarchive = function()
 {
   if( confirm('Un-archive this task?') )
   {
-    MT.post('index.php/tasks/save/'+MT.Tasks.id, {'archived': 0}, function(task)
+    MT.post('tasks/save/'+MT.Tasks.id, {'archived': 0}, function(task)
     {
       MT.Tasks.update(task.data);
       MT.Tasks.list();
@@ -115,7 +115,7 @@ MT.Tasks.delete = function()
 {
   if(confirm('Delete this task?'))
   {
-    MT.post('index.php/tasks/delete/'+MT.Tasks.id, function(data)
+    MT.post('tasks/delete/'+MT.Tasks.id, function(data)
     {
       $('#tasks [data-id='+MT.Tasks.id+']').remove();
       MT.Tasks.close();
