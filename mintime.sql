@@ -16,8 +16,8 @@ CREATE TABLE `logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `settings` (
-  `option_name` varchar(191) NOT NULL,
-  `option_value` varchar(255) NOT NULL
+  `name` varchar(191) NOT NULL,
+  `value` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `tasks` (
@@ -33,10 +33,10 @@ CREATE TABLE `tasks` (
 
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `task_id` (`task_id`);
+  ADD KEY `task_id` (`task_id`) USING BTREE;
 
 ALTER TABLE `settings`
-  ADD PRIMARY KEY (`option_name`);
+  ADD PRIMARY KEY (`name`);
 
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
