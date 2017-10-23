@@ -17,7 +17,7 @@ CREATE TABLE `logs` (
 
 CREATE TABLE `settings` (
   `name` varchar(191) NOT NULL,
-  `value` varchar(255) NOT NULL
+  `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `tasks` (
