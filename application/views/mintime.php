@@ -18,6 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script src="js/mintime.js?v=<?=filemtime('js/mintime.js')?>"></script>
   <script src="js/tasks.js?v=<?=filemtime('js/tasks.js')?>"></script>
   <script src="js/logs.js?v=<?=filemtime('js/logs.js')?>"></script>
+  <script src="js/settings.js?v=<?=filemtime('js/settings.js')?>"></script>
 
   <link href="css/mintime.css?v=<?=filemtime('css/mintime.css')?>" rel="stylesheet" type="text/css"/>
 </head>
@@ -28,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script id="log-template" type="text/template"><?php $this->load->view('templates/log.php'); ?></script>
   <script id="log_details-template" type="text/template"><?php $this->load->view('templates/log_details.php'); ?></script>
   <script id="stats-template" type="text/template"><?php $this->load->view('templates/stats.php'); ?></script>
+  <script id="settings-template" type="text/template"><?php $this->load->view('templates/settings.php'); ?></script>
   
   <div id="container">  
 

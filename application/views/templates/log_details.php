@@ -12,7 +12,11 @@
   <div id="log_edit-end"><label>end</label> <input name="end" type="text" /></div>
 
   <p><label>time</label> <span data-name="time"></span></p>
-  <p><label>amount</label> <span data-name="amount"></span></p>
+
+  <p>
+    <label>amount</label> <span data-name="currency"></span> <span data-name="amount"></span><br />
+    <label></label> <span data-name="functional_currency"></span> <span data-name="functional_amount"></span>
+  </p>
 </form>
 
 </div>

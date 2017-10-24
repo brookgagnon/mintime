@@ -11,9 +11,14 @@
   <div><label>name</label> <input name="name" type="text" /></div>
   <div><label>budget</label> <input name="budget" type="text" /></div>
   <div><label>rate</label> <input name="rate" type="text" /></div>
-  <div><label>currency</label> <select data-link="currency" name="currency"><option>CAD</option><option>USD</option></select></div>
+  <div><label>currency</label> <select data-link="currency" name="currency">
+    {{#currencies}}<option value="{{symbol}}"> {{symbol}} ({{name}})</option>{{/currencies}}
+  </select></div>
   <div><label>invoiced</label> <select name="invoiced"><option value="1">Yes</option><option value="0">No</option></select></div>
   
   <p><label>time</label> <span data-name="time"></span></p>
-  <p><label>amount</label> <span data-name="amount"></span></p>
+  <p>
+    <label>amount</label> <span data-name="currency"></span> <span data-name="amount"></span><br />
+    <label></label> <span data-name="functional_currency"></span> <span data-name="functional_amount"></span>
+  </p>
 </form>

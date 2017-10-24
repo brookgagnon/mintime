@@ -33,13 +33,26 @@ class Logs_model extends CI_Model
 
     if($entry->end) 
     {
-      $entry->time = number_format(($entry->end - $entry->start)/3600,2);
+      $entry->time = round(($entry->end - $entry->start)/3600,2);
       
       $this->db->where('id',$entry->task_id);
       $query = $this->db->get('tasks');
       $task = current($query->result());
       if(!$task) return false; // shouldn't happen.
-      $entry->amount = number_format($task->rate*$entry->time,2);
+      $entry->amount = round($task->rate*$entry->time,2);
+      $entry->currency = $task->currency;
+
+      $functional_currency = $this->currencies->get_functional();
+      if($task->currency && $task->currency!=$functional_currency)
+      {
+        $entry->functional_currency = $functional_currency;
+        $entry->functional_amount = round($this->currencies->exchange($entry->amount, $entry->currency), 2);
+      }
+
+      // make numbers nicer for display
+      if(isset($entry->functional_amount)) $entry->functional_amount = number_format($entry->functional_amount, 2);
+      $entry->amount = number_format($entry->amount, 2);
+      $entry->time = number_format($entry->time, 2);
     }
     else
     {

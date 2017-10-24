@@ -38,9 +38,15 @@ class Mintime_model extends CI_Model
 
         $total += $end - $start;
       }
-      $total = number_format($total/3600,2);
+      $total = round($total/3600,2);
 
       $stats[$index] = $total;
+    }
+
+    // make numbers nicer for display
+    foreach($stats as &$stat)
+    {
+      $stat = number_format($stat, 2); 
     }
 
     return $stats;

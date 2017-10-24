@@ -36,12 +36,25 @@ class Tasks_model extends CI_Model
     {
       $task->time += ($entry->end ? $entry->end : time()) - $entry->start;
     }
-    $task->time = number_format($task->time/3600,2);
-    $task->amount = number_format(min($task->budget,$task->time * $task->rate),2);
+    $task->time = round($task->time/3600,2);
+    $task->amount = round(min($task->budget,$task->time * $task->rate),2);
+
+    $functional_currency = $this->currencies->get_functional();
+
+    if($task->currency && $task->currency!=$functional_currency)
+    {
+      $task->functional_currency = $functional_currency;
+      $task->functional_amount = round($this->currencies->exchange($task->amount, $task->currency), 2);
+    }
 
     // convert tinyint to bool
     $task->archived = (bool) $task->archived;
     $task->invoiced = (bool) $task->invoiced;
+
+    // make numbers nicer for display
+    if(isset($task->functional_amount)) $task->functional_amount = number_format($task->functional_amount, 2);
+    $task->amount = number_format($task->amount, 2);
+    $task->time = number_format($task->time, 2);
 
     return ['data'=>$task, 'log'=>$log];
   }

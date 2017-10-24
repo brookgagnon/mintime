@@ -40,7 +40,8 @@ MT.Tasks.open = function(id, task)
     MT.Log.close();
     MT.Log.list(task.log);
 
-    MT.template('q2', 'task_details', task.data);
+    // http://api.jquery.com/jQuery.extend/
+    MT.template('q2', 'task_details', $.extend( {'currencies': task.currencies}, task.data));
 
     MT.Tasks.update(task.data);
 
@@ -58,6 +59,9 @@ MT.Tasks.update = function(task)
   // make sure task name in task list is up to date.
   $('#tasks [data-id='+task.id+']').text(task.name);
 
+  // pre-clear data-name elements since they might not be set by task data (in which cause need to be blank). i.e., functional symbol/amount.
+  $('#task_edit [data-name]').html('');
+  
   // set values for task data.
   $.each(task, function(name,value) { 
     $('#task_edit [name='+name+']').val( typeof(value)=='boolean' ? +value : value );

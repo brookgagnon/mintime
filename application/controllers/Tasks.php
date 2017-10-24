@@ -21,6 +21,10 @@ class Tasks extends CI_Controller
   public function get_one($id = null)
   {
     $task = $this->tasks->get_one($id);
+
+    // list available currencies only (true)
+    $task['currencies'] = $this->currencies->list(true);
+
     echo json_encode($task);
   }
 

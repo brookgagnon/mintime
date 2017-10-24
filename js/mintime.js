@@ -6,6 +6,8 @@ MT.init = function()
   $('body').on('change','#task_edit input', MT.Tasks.save);
   $('body').on('change','#task_edit select', MT.Tasks.save);
   $('body').on('change','#log_edit input', MT.Log.save);
+  $('body').on('change','#settings_edit input', MT.Settings.save);
+  $('body').on('change','#settings_edit select', MT.Settings.save);
 
   $('#top').resizable({'handles': 's'});
   $('#q1c').resizable({'handles': 'e'});
